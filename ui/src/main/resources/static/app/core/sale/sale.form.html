@@ -1,0 +1,151 @@
+new sales
+<br />
+<br />
+
+<script type="text/javascript">
+	$(".js-data-contact-ajax")
+			.select2(
+					{
+						ajax : {
+							url : "/core/contacts/search/findByNameContainingIgnoreCase?sort=name",
+							dataType : 'json',
+							delay : 250,
+							data : function(params) {
+								return {
+									name : params.term, // search term
+									page : params.page
+								};
+							},
+							processResults : function(data, params) {
+								params.page = params.page || 1;
+
+								data._embedded.contacts.forEach(function(
+										contact) {
+									contact.id = contact._links.self.href;
+								});
+
+								return {
+									results : data._embedded.contacts,
+									pagination : {
+										more : (params.page * 30) < data.total_count
+									}
+								};
+							},
+							cache : true
+						},
+						escapeMarkup : function(markup) {
+							return markup;
+						}, // let our custom formatter work
+						minimumInputLength : 1,
+						templateResult : formatRepo, // omitted for brevity, see the source of this page
+						templateSelection : formatRepoSelection
+					// omitted for brevity, see the source of this page
+					});
+
+	function formatRepo(repo) {
+		if (repo.loading)
+			return repo.name;
+
+		return repo.name;
+	}
+
+	function formatRepoSelection(repo) {
+		return repo.name;
+	}
+	
+	$(".js-data-product-ajax")
+			.select2(
+					{
+						ajax : {
+							url : "/core/products/search/findByNameContainingIgnoreCase?sort=name",
+							dataType : 'json',
+							delay : 250,
+							data : function(params) {
+								return {
+									name : params.term, // search term
+									page : params.page
+								};
+							},
+							processResults : function(data, params) {
+								params.page = params.page || 1;
+
+								data._embedded.products.forEach(function(
+										contact) {
+									contact.id = contact._links.self.href;
+								});
+
+								return {
+									results : data._embedded.products,
+									pagination : {
+										more : (params.page * 30) < data.total_count
+									}
+								};
+							},
+							cache : true
+						},
+						escapeMarkup : function(markup) {
+							return markup;
+						}, // let our custom formatter work
+						minimumInputLength : 1,
+						templateResult : formatRepo, // omitted for brevity, see the source of this page
+						templateSelection : formatRepoSelection
+					// omitted for brevity, see the source of this page
+					});
+</script>
+
+
+<div class="panel panel-default">
+	<div class="panel-heading">Contacts Form</div>
+	<div class="panel-body">
+		<form>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2">
+						<label for="exampleInputEmail1">Client</label>
+						<select
+							class="js-data-contact-ajax form-control"
+							ng-model="controller.sale.client" id="exampleInputEmail1">
+						</select>
+					</div>
+				</div>
+			</div>
+		
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-2">
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-primary active">
+								<input type="radio"	name="options" id="option1" autocomplete="off" value="PRODUCT" ng-value="controller.itemType" checked>Products
+							</label>
+							<label class="btn btn-primary">
+								<input type="radio"	name="options" id="option2" autocomplete="off" value="SERVICE" ng-value="controller.itemType"> Service
+							</label>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<select
+							class="js-data-product-ajax form-control"
+							ng-model="controller.itemUrl" id="exampleInputEmail1">
+						</select>
+					</div>
+					<div class="col-md-2">
+						<input ng-model="controller.quantity" type="number"
+							class="form-control" id="quantity" placeholder="Quantity">
+					</div>
+					<div class="col-md-2">
+						<button type="submit"
+							data-loading-text="Loading..." autocomplete="off"
+							class="btn btn-default" ng-click="controller.addItem()">Add</button>
+					</div>
+			</div>
+			
+			<div class="form-group">
+				
+			</div>
+		
+			<button type="submit" ng-click="controller.save()" class="btn btn-default">Submit</button>
+		</form>
+		
+		{{controller.sale.items}}
+	</div>
+</div>

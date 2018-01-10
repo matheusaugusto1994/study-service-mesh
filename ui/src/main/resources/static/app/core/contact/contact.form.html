@@ -1,0 +1,40 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Contacts Form</div>
+	<div class="panel-body">
+		<form ng-submit="contactFormController.save()" validate>
+			<div class="form-group">
+				<label for="name">Name</label> <input
+					ng-model="contactFormController.contact.name" type="text"
+					class="form-control" id="name" placeholder="Name" required>
+			</div>
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-6">
+						<label for="phone">Phone</label> <input
+							ng-model="contactFormController.contact.phone" type="text"
+							class="form-control" id="phone" placeholder="Phone">
+					</div>
+					<div class="col-md-6">
+						<label for="mobilePhone">Mobile Phone</label> <input
+							ng-model="contactFormController.contact.mobilePhone" type="text"
+							class="form-control" id="mobilePhone" placeholder="Mobile Phone">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="email">Email address</label> <input
+					ng-model="contactFormController.contact.email" type="email"
+					class="form-control" id="email" placeholder="Email">
+			</div>
+			<div class="form-group">
+				<label for="notes">Notes</label>
+				<textarea rows="8" ng-model="contactFormController.contact.notes"
+					type="text" class="form-control" id="notes" placeholder="Notes" />
+			</div>
+			<button type="submit" ng-disabled="!contactFormController.contact"
+				data-loading-text="Loading..." autocomplete="off"
+				class="btn btn-default">Submit</button>
+			<a href="/#/contacts" type="submit">Cancel</a>
+		</form>
+	</div>
+</div>

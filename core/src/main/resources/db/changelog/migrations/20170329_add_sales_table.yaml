@@ -1,0 +1,240 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: pfonseca
+      changes:
+        - createTable:
+            tableName: payment
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comments
+                  type: varchar(512)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: discount
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: interest
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: paid
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: paid_value
+                  type: numeric(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    
+  - changeSet:
+      id: 2
+      author: pfonseca
+      changes:
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_PAYMENT
+            startValue: 1
+            
+  - changeSet:
+      id: 3
+      author: pfonseca
+      changes:
+        - createTable:
+            tableName: installment
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: due_date
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: paid
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: installment_value
+                  type: numeric(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_id
+                  type: int
+                  constraints:
+                    nullable: false
+                    
+  - changeSet:
+      id: 4
+      author: pfonseca
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: payment_id
+            baseTableName: installment
+            constraintName: fk_payment_installment
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: payment
+  - changeSet:
+      id: 5
+      author: pfonseca
+      changes:
+        - createTable:
+            tableName: sale
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payment_id
+                  type: int
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 6
+      author: pfonseca
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: payment_id
+            baseTableName: sale
+            constraintName: fk_payment_pay
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: payment
+  - changeSet:
+      id: 7
+      author: pfonseca
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: client_id
+            baseTableName: sale
+            constraintName: fk_client
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: contact
+  - changeSet:
+      id: 8
+      author: pfonseca
+      changes:
+        - createTable:
+            tableName: sale_item
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: discount
+                  type: numeric(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: item_type
+                  type: varchar(31)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sale_id
+                  type: int
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 9
+      author: pfonseca
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: sale_id
+            baseTableName: sale_item
+            constraintName: fk_sale
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: sale
+            
+  - changeSet:
+      id: 10
+      author: pfonseca
+      changes:
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_SALE
+            startValue: 1
+            

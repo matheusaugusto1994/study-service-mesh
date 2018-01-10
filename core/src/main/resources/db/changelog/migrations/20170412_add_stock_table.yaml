@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: pfonseca
+      changes:
+        - createTable:
+            tableName: stock
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(256)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: description
+                  type: varchar(512)
+                  constraints:
+                    nullable: true
+              
+            
+  - changeSet:
+      id: 2
+      author: pfonseca
+      changes:
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_STOCK
+            startValue: 1
+            
+  - changeSet:
+      id: 3
+      author: pfonseca
+      changes:
+        - dropColumn:
+            columnName: quantity
+            tableName: product
+      

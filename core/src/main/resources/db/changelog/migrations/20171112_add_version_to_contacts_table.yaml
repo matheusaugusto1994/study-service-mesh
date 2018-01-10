@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: pfonseca
+      changes:
+        - addColumn:
+            tableName: contact
+            columns:
+              - column:
+                  name: version
+                  type: int

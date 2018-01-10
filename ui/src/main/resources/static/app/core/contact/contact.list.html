@@ -1,0 +1,22 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Phone</th>
+			<th>Mobile Phone</th>
+			<th>Email</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="contact in contactListController.page._embedded.contacts">
+			<td>{{contact.name}}</td>
+			<td>{{contact.phone}}</td>
+			<td>{{contact.mobilePhone}}</td>
+			<td>{{contact.email}}</td>
+			<td><a href="{{contactListController.getEditUrl(contact)}}">Edit</a> - <a ng-click="contactListController.remove(contact)">Delete</a></td>
+		</tr>
+	</tbody>
+</table>
+
+<a href="/#/contacts/new">New</a>

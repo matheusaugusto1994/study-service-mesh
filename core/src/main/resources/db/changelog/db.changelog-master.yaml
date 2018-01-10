@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - include:
+      file: "classpath:db/changelog/migrations/20170319_add_contacts_table.yaml"
+  - include:
+      file: "classpath:db/changelog/migrations/20170319_add_products_table.yaml"
+  - include:
+      file: "classpath:db/changelog/migrations/20170322_add_services_table.yaml"
+  - include:
+      file: "classpath:db/changelog/migrations/20170329_add_sales_table.yaml"
+  - include:
+      file: "classpath:db/changelog/migrations/20170412_add_stock_table.yaml"
+  - include:
+      file: "classpath:db/changelog/migrations/20171112_add_version_to_contacts_table.yaml"
+ 

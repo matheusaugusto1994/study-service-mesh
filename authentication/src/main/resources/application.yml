@@ -1,0 +1,28 @@
+
+endpoints:
+  health:
+    sensitive: true
+
+management:
+  security:
+    enabled: false
+    
+spring:
+  boot:
+    admin:
+      url: http://localhost:8081
+  application:
+    name: Authentication
+    
+
+server:
+  port: 9001
+  context-path: /auth
+  
+security:
+  user:
+    password: password
+
+logging:
+  level:
+    org.springframework.security: DEBUG

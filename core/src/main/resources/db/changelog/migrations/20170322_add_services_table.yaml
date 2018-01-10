@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: pfonseca
+      changes:
+        - createTable:
+            tableName: service
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: id
+            baseTableName: service
+            constraintName: fk_service_item
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: item

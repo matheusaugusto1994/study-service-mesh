@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: pfonseca
+      changes:
+        - createTable:
+            tableName: contact
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: mobile_phone
+                  type: varchar(32)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: phone
+                  type: varchar(32)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: email
+                  type: varchar(256)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: image_url
+                  type: varchar(256)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: notes
+                  type: varchar(512)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_CONTACT
+            startValue: 1

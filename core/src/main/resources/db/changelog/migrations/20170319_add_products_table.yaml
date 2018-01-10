@@ -1,0 +1,87 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: pfonseca
+      changes:
+        - createTable:
+            tableName: item
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(256)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: cost
+                  type: numeric(19, 2)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: price
+                  type: numeric(19, 2)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: image_url
+                  type: varchar(256)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: description
+                  type: varchar(512)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: item_type
+                  type: varchar(31)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated
+                  type: timestamp with timezone
+                  constraints:
+                    nullable: false
+        - createSequence:
+            incrementBy: 1
+            sequenceName: SEQ_ITEM
+            startValue: 1
+  - changeSet:
+      id: 2
+      author: pfonseca
+      changes:
+        - createTable:
+            tableName: product
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: false
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: id
+            baseTableName: product
+            constraintName: fk_product_item
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: CASCADE
+            referencedColumnNames: id
+            referencedTableName: item

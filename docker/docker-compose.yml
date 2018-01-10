@@ -1,0 +1,117 @@
+# OAuth Server (springboot app)
+oauth:
+  #build: myapp-api/. # Use the Dockerfile under my myapp-api
+  image: maven:3.3.9-jdk-8
+  working_dir: /authentication
+  # Build and run the app via Gradle
+  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
+  command: mvn spring-boot:run
+  # Let this container talk to postgres
+#  links:
+#    - db
+#    - monitor
+  ports:
+    - "9001:9001"
+  # Share the cwd on my mac with the container
+  volumes:
+    - ../authentication:/authentication
+    - ~/.m2:/root/.m2
+  net: "host"
+
+
+# Core Server (springboot app)
+core:
+  #build: myapp-api/. # Use the Dockerfile under my myapp-api
+  image: maven:3.3.9-jdk-8
+  working_dir: /core
+  # Build and run the app via Gradle
+  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
+  command: mvn spring-boot:run
+  # Let this container talk to postgres
+  ports:
+    - "8082:8082"
+  # Share the cwd on my mac with the container
+  volumes:
+    - ../core:/core
+    - ~/.m2:/root/.m2
+  net: "host"
+
+# Invoice Server (springboot app)
+invoice:
+  image: maven:3.3.9-jdk-8
+  working_dir: /invoice
+  # Build and run the app via Gradle
+  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
+  command: mvn spring-boot:run
+  # Let this container talk to postgres
+  ports:
+    - "8083:8083"
+  # Share the cwd on my mac with the container
+  volumes:
+    - ../invoice:/invoice
+    - ~/.m2:/root/.m2
+  net: "host"
+
+
+# Configuration Server (springboot app)
+configuration:
+  image: maven:3.3.9-jdk-8
+  working_dir: /configuration
+  # Build and run the app via Gradle
+  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
+  command: mvn spring-boot:run
+  # Let this container talk to postgres
+  ports:
+    - "8084:8084"
+  # Share the cwd on my mac with the container
+  volumes:
+    - ../configuration:/configuration
+    - ~/.m2:/root/.m2
+  net: "host"
+
+
+ui:
+  #build: myapp-api/. # Use the Dockerfile under my myapp-api
+  image: maven:3.3.9-jdk-8
+  working_dir: /ui          
+  # Build and run the app via Gradle
+  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
+  command: mvn spring-boot:run
+  # Let this container talk to postgres
+  ports:
+    - "9000:9000"
+  # Share the cwd on my mac with the container
+  volumes:
+    - ../ui:/ui
+    - ~/.m2:/root/.m2
+  net: "host"
+
+
+monitor:
+  image: maven:3.3.9-jdk-8
+  working_dir: /monitor
+  # Build and run the app via Gradle
+  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
+  command: mvn spring-boot:run
+  ports:
+    - "8081:8081"
+  # Share the cwd on my mac with the container
+  volumes:
+    - ../monitor:/monitor
+    - ~/.m2:/root/.m2
+  net: "host"
+
+
+# The default Postgres is good enough here. RDS in production
+db:
+  image: postgres
+  # Expose the port so we can access the DB via psql -U postgres -h BOOT2DOCKERIP
+  ports:
+    - "5432:5432"
+  # Persist the data between containers.
+  volumes:
+    - ./data:/var/lib/postgresql
+  environment:
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_DB=core
+
