@@ -5,7 +5,7 @@ oauth:
   working_dir: /authentication
   # Build and run the app via Gradle
   # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
-  command: mvn spring-boot:run
+  command: mvn spring-boot:run 
   # Let this container talk to postgres
 #  links:
 #    - db
@@ -42,7 +42,7 @@ invoice:
   working_dir: /invoice
   # Build and run the app via Gradle
   # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
-  command: mvn spring-boot:run
+  command: mvn spring-boot:run 
   # Let this container talk to postgres
   ports:
     - "8083:8083"
@@ -59,7 +59,7 @@ configuration:
   working_dir: /configuration
   # Build and run the app via Gradle
   # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
-  command: mvn spring-boot:run
+  command: mvn spring-boot:run 
   # Let this container talk to postgres
   ports:
     - "8084:8084"
@@ -76,7 +76,7 @@ ui:
   working_dir: /ui          
   # Build and run the app via Gradle
   # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
-  command: mvn spring-boot:run
+  command: mvn spring-boot:run 
   # Let this container talk to postgres
   ports:
     - "9000:9000"
@@ -92,7 +92,7 @@ monitor:
   working_dir: /monitor
   # Build and run the app via Gradle
   # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
-  command: mvn spring-boot:run
+  command: mvn spring-boot:run 
   ports:
     - "8081:8081"
   # Share the cwd on my mac with the container
