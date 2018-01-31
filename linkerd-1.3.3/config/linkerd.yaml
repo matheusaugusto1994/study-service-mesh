@@ -17,18 +17,9 @@ namers:
 routers:
 - protocol: http
   label: core
-  dstPrefix: /core
   dtab: |
-    /core => /#/io.l5d.fs/core;
+    /svc# => /#/io.l5d.fs;
+    /core => /svc#/core;
+    /ui => /svc#/ui;
   servers:
   - port: 8000
-- protocol: http
-  label: ui
-  dtab: |
-    /svc => /#/ui;
-  servers:
-  - port: 8001  
-  #  addForwardedHeader:
-  #    by: {"localhost:8000"}
-  #    for: {localhost}
-  #dstPrefix default value = /svc
