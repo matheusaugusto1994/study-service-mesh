@@ -16,10 +16,13 @@ namers:
 
 routers:
 - protocol: http
-  label: core
   dtab: |
-    /svc# => /#/io.l5d.fs;
-    /core => /svc#/core;
-    /ui => /svc#/ui;
+    /svc/ui   => /svc/ui;
+    /svc/core => /svc/core;
+    /svc      => /#/io.l5d.fs;
+  dstPrefix: /svc
+  identifier:
+    kind: io.l5d.path
+    segments: 1
   servers:
   - port: 8000
