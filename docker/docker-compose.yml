@@ -116,14 +116,6 @@ db:
     - POSTGRES_DB=core
 
 # linkerd
-# linkerd:
-#   image: buoyantio/linkerd:1.3.5
-#   volumes:
-#   - ./linkerd1.yml:/io.buoyant/linkerd/config.yml:ro
-#   - ./disco:/disco:ro
-#   command:
-#   - "/io.buoyant/linkerd/config.yml"
-
 linkerd:
   image: buoyantio/linkerd:1.3.3
   ports:
@@ -131,20 +123,23 @@ linkerd:
     - "8082:8082"
     - "8088:8088"
   volumes:
-    - ../linkerd-1.3.3/disco:/io.buoyant/linkerd/1.3.3/disco 
-    - ../config.yaml:/config.yaml 
+    - ../linkerd/disco:/io.buoyant/linkerd/1.3.3/disco 
+    - ../linkerd/config/linkerd.yaml:/config.yaml
   command:
     - /config.yaml
   net: "host"
 
+# influxdb
 influxdb:
   image: influxdb:1.2.2
 
+# telegraf
 telegraf:
   image: telegraf:1.2.1
   # volumes:
   # - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
+# grafana
 grafana:
   image: grafana/grafana:3.1.1
   ports:
@@ -155,6 +150,7 @@ grafana:
     - GF_AUTH_ANONYMOUS_ENABLED=true
     - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
 
+# grafana_bootstrap
 grafana_bootstrap:
   image: buoyantio/slow_cooker:1.1.0
   entrypoint: /bin/sh
