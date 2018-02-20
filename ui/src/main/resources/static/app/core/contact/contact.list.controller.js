@@ -8,7 +8,7 @@
     	
     	self.getEditUrl = function(contact){
     		var id = utils.getId(contact._links.self.href);
-    		return "/#/contacts/"+id+"/edit";
+    		return "#/contacts/"+id+"/edit";
     	}
     	
     	self.remove = function(contact){

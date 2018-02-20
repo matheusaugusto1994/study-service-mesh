@@ -8,7 +8,7 @@
     	
     	self.getEditUrl = function(product){
     		var id = utils.getId(product._links.self.href);
-    		return "/#/products/"+id+"/edit";
+    		return "#/products/"+id+"/edit";
     	}
     	
     	self.remove = function(product){

@@ -7,14 +7,14 @@
     	function list() {
             return $http({
                 method: 'GET',
-                url: 'core/sales/'
+                url: '/core/sales/'
             });
     	}
     	
     	function get(id) {
             return $http({
                 method: 'GET',
-                url: 'core/sales/'+id
+                url: '/core/sales/'+id
             });
     	}  
     	
@@ -24,7 +24,7 @@
     			
                 return $http({
                     method: 'PUT',
-                    url: 'core/sales/'+sale.id,
+                    url: '/core/sales/'+sale.id,
                     data: sale
                 });
                 
@@ -32,7 +32,7 @@
     			
                 return $http({
                     method: 'POST',
-                    url: 'core/sales/',
+                    url: '/core/sales/',
                     data: sale
                 });	
                 

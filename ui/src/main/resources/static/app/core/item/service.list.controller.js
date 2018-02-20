@@ -9,7 +9,7 @@
     	
     	self.getEditUrl = function(service){
     		var id = utils.getId(service._links.self.href);
-    		return "/#/services/"+id+"/edit";
+    		return "#/services/"+id+"/edit";
     	}
     	
     	self.remove = function(service){
