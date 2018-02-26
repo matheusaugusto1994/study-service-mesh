@@ -1,5 +1,6 @@
 server:
   port: 8082
+  contextPath: /core
 endpoints:
   sensitive: true
   health:
