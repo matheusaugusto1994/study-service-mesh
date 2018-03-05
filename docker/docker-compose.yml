@@ -132,29 +132,33 @@ linkerd:
 # influxdb
 influxdb:
   image: influxdb:1.2.2
+  net: "host"
 
 # telegraf
 telegraf:
   image: telegraf:1.2.1
-  # volumes:
-  # - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+  volumes:
+  - ../linkerd/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+  net: "host"
 
 # grafana
 grafana:
   image: grafana/grafana:3.1.1
   ports:
   - 3000:3000
-  # volumes:
-  # - ./grafana.json:/usr/share/grafana/public/dashboards/home.json:ro
+  volumes:
+  - ../linkerd/grafana/grafana.json:/usr/share/grafana/public/dashboards/home.json:ro
   environment:
     - GF_AUTH_ANONYMOUS_ENABLED=true
     - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+  net: "host"
 
 # grafana_bootstrap
 grafana_bootstrap:
   image: buoyantio/slow_cooker:1.1.0
   entrypoint: /bin/sh
-  # volumes:
-  # - ./grafana-bootstrap.sh:/grafana-bootstrap.sh:ro
+  volumes:
+  - ../linkerd/grafana/grafana-bootstrap.sh:/grafana-bootstrap.sh:ro
   command: >
     -c '/grafana-bootstrap.sh'
+  net: "host"
