@@ -1,127 +1,45 @@
-# OAuth Server (springboot app)
-oauth:
-  #build: myapp-api/. # Use the Dockerfile under my myapp-api
-  image: maven:3.3.9-jdk-8
-  working_dir: /authentication
-  # Build and run the app via Gradle
-  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
-  command: mvn spring-boot:run 
-  # Let this container talk to postgres
-#  links:
-#    - db
-#    - monitor
-  ports:
-    - "9001:9001"
-  # Share the cwd on my mac with the container
-  volumes:
-    - ../authentication:/authentication
-    - ~/.m2:/root/.m2
-  net: "host"
-
-
-# Core Server (springboot app)
+# core business
 core:
-  #build: myapp-api/. # Use the Dockerfile under my myapp-api
   image: maven:3.3.9-jdk-8
   working_dir: /core
-  # Build and run the app via Gradle
-  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
   command: mvn spring-boot:run
-  # Let this container talk to postgres
   ports:
     - "8082:8082"
-  # Share the cwd on my mac with the container
   volumes:
     - ../core:/core
     - ~/.m2:/root/.m2
   net: "host"
 
-# Invoice Server (springboot app)
-invoice:
-  image: maven:3.3.9-jdk-8
-  working_dir: /invoice
-  # Build and run the app via Gradle
-  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
-  command: mvn spring-boot:run 
-  # Let this container talk to postgres
-  ports:
-    - "8083:8083"
-  # Share the cwd on my mac with the container
-  volumes:
-    - ../invoice:/invoice
-    - ~/.m2:/root/.m2
-  net: "host"
-
-
-# Configuration Server (springboot app)
-configuration:
-  image: maven:3.3.9-jdk-8
-  working_dir: /configuration
-  # Build and run the app via Gradle
-  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
-  command: mvn spring-boot:run 
-  # Let this container talk to postgres
-  ports:
-    - "8084:8084"
-  # Share the cwd on my mac with the container
-  volumes:
-    - ../configuration:/configuration
-    - ~/.m2:/root/.m2
-  net: "host"
-
-
+# user interface
 ui:
-  #build: myapp-api/. # Use the Dockerfile under my myapp-api
   image: maven:3.3.9-jdk-8
   working_dir: /ui          
-  # Build and run the app via Gradle
-  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
   command: mvn spring-boot:run 
-  # Let this container talk to postgres
   ports:
     - "9000:9000"
-  # Share the cwd on my mac with the container
   volumes:
     - ../ui:/ui
     - ~/.m2:/root/.m2
   net: "host"
 
-
-monitor:
-  image: maven:3.3.9-jdk-8
-  working_dir: /monitor
-  # Build and run the app via Gradle
-  # Cache dependancies and Gradle on the shared folder so we dont have to download each time.
-  command: mvn spring-boot:run 
-  ports:
-    - "8081:8081"
-  # Share the cwd on my mac with the container
-  volumes:
-    - ../monitor:/monitor
-    - ~/.m2:/root/.m2
-  net: "host"
-
-
-# The default Postgres is good enough here. RDS in production
+# data base
 db:
   image: postgres
-  # Expose the port so we can access the DB via psql -U postgres -h BOOT2DOCKERIP
   ports:
     - "5432:5432"
-  # Persist the data between containers.
   volumes:
     - ./data:/var/lib/postgresql
   environment:
     - POSTGRES_PASSWORD=postgres
     - POSTGRES_DB=core
+  net: "host"
 
 # linkerd
 linkerd:
   image: buoyantio/linkerd:1.3.3
   ports:
     - "9990:9990"
-    - "8082:8082"
-    - "8088:8088"
+    - "8000:8000"
   volumes:
     - ../linkerd/disco:/io.buoyant/linkerd/1.3.3/disco 
     - ../linkerd/config/linkerd.yaml:/config.yaml
@@ -130,35 +48,31 @@ linkerd:
   net: "host"
 
 # influxdb
-influxdb:
-  image: influxdb:1.2.2
-  net: "host"
+# influxdb:
+#   image: influxdb:1.2.2
 
 # telegraf
-telegraf:
-  image: telegraf:1.2.1
-  volumes:
-  - ../linkerd/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
-  net: "host"
+# telegraf:
+  # image: telegraf:1.2.1
+  # volumes:
+  # - ../linkerd/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
 
 # grafana
-grafana:
-  image: grafana/grafana:3.1.1
-  ports:
-  - 3000:3000
-  volumes:
-  - ../linkerd/grafana/grafana.json:/usr/share/grafana/public/dashboards/home.json:ro
-  environment:
-    - GF_AUTH_ANONYMOUS_ENABLED=true
-    - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-  net: "host"
+# grafana:
+  # image: grafana/grafana:3.1.1
+  # ports:
+  # - 3000:3000
+  # volumes:
+  # - ../linkerd/grafana/grafana.json:/usr/share/grafana/public/dashboards/home.json:ro
+  # environment:
+  #   - GF_AUTH_ANONYMOUS_ENABLED=true
+  #   - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
 
 # grafana_bootstrap
-grafana_bootstrap:
-  image: buoyantio/slow_cooker:1.1.0
-  entrypoint: /bin/sh
-  volumes:
-  - ../linkerd/grafana/grafana-bootstrap.sh:/grafana-bootstrap.sh:ro
-  command: >
-    -c '/grafana-bootstrap.sh'
-  net: "host"
+# grafana_bootstrap:
+  # image: buoyantio/slow_cooker:1.1.0
+  # entrypoint: /bin/sh
+  # volumes:
+  # - ../linkerd/grafana/grafana-bootstrap.sh:/grafana-bootstrap.sh:ro
+  # command: >
+  #   -c '/grafana-bootstrap.sh'
