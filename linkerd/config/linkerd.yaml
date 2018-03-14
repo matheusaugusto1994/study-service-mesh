@@ -26,3 +26,10 @@ routers:
     segments: 1
   servers:
   - port: 8000
+  client:
+    failureAccrual:
+      kind: io.l5d.consecutiveFailures
+      failures: 5
+      backoff:
+        kind: constant
+        ms: 10000
