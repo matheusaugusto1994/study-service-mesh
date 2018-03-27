@@ -33,3 +33,8 @@ routers:
       backoff:
         kind: constant
         ms: 10000
+    loadBalancer:
+      kind: ewma
+      maxEffort: 10
+      decayTimeMs: 15000
+

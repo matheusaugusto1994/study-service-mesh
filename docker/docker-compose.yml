@@ -10,6 +10,18 @@ core:
     - ~/.m2:/root/.m2
   net: "host"
 
+core2:
+  image: maven:3.3.9-jdk-8
+  working_dir: /core
+  command: mvn spring-boot:run -Dserver.port=8083
+  ports:
+    - "8083:8082"
+  volumes:
+    - ../core:/core
+    - ~/.m2:/root/.m2
+  net: "host"
+
+
 # user interface
 ui:
   image: maven:3.3.9-jdk-8
