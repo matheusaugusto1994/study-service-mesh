@@ -3,6 +3,7 @@ package com.pfonseca.erp.eventlistener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
+import org.springframework.data.rest.core.annotation.HandleAfterSave;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.stereotype.Component;
@@ -24,5 +25,10 @@ public class ContactEventHandler {
 	public void handleAfterContactSave(Contact p) {
 		logger.info("After new contact. Id: "+p.getId());
 	}
-	
+
+	@HandleAfterSave
+	public void handleAfterContactUpdate(Contact p) {
+		throw new RuntimeException("Exception!!!");
+	}
+
 }
